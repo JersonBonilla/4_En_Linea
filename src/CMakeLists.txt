@@ -1,5 +1,5 @@
 # TODO: Cambiar el nombre del destino. Este va a ser el nombre del ejecutable
-set(TARGET_NAME Conecta4)
+set(TARGET_NAME 4_En_Linea)
 
 project(${TARGET_NAME})
 
