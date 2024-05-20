@@ -2,6 +2,7 @@
 
 # Miembros
 Jerson Bonilla - C31225
+
 Marco Fernandez - C32885
 
 ## Requisitos
