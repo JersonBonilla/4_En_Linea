@@ -1,10 +1,8 @@
-# Plantilla wxWidgets con CMake
+# 4 en linea
 
-La idea de esta plantilla es que pueda servir de base para proyectos
-programados que requieran usar CMake, wxWidgets y Google Test.
-
-Se implementa funcionalidad básica para tener una ventana y tener pruebas
-unitarias.
+# Miembros
+Jerson Bonilla - C31225
+Marco Fernandez - C32885
 
 ## Requisitos
 
