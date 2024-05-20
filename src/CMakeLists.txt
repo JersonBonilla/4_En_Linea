@@ -1,5 +1,5 @@
 # TODO: Cambiar el nombre del destino. Este va a ser el nombre del ejecutable
-set(TARGET_NAME PlantillaWxWidgets)
+set(TARGET_NAME Conecta4)
 
 project(${TARGET_NAME})
 

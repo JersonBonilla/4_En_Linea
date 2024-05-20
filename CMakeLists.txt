@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24 FATAL_ERROR)
 
 # TODO: Cambiar el nombre del proyecto
-project(PlantillaProyecto LANGUAGES CXX)
+project(Conecta4 LANGUAGES CXX)
 
 include(FetchContent)
 
