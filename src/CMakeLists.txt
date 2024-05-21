@@ -16,9 +16,11 @@ endif()
 
 ######################################## Configuración del proyecto ########################################
 
+
 set(SRCS
 # TODO: Agregar aquí los archivos fuente de su proyecto
     main.cpp
+    Tablero.cc
 )
 
 if(APPLE)
