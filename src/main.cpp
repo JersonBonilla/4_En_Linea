@@ -16,6 +16,18 @@ class MyFrame : public wxFrame {
   void OnHello(wxCommandEvent& event);
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
+  wxStaticText* jugador1Lbl;
+  wxTextCtrl* nombreJugador1Txt;
+  wxRadioBox* tipoJugador1Rb;
+  wxStaticText* jugador2Lbl;
+  wxTextCtrl* nombreJugador2Txt;
+  wxRadioBox* tipoJugador2Rb;
+  wxStaticText* tableroConfigLbl;
+  wxStaticText* largoLbl;
+   wxSpinCtrl* largoSc;
+  wxStaticText* anchoLbl;
+  wxSpinCtrl* anchoSc;
+  wxButton* startGameBtn;
 };
 
 enum { ID_Hello = 1 };
@@ -50,46 +62,79 @@ MyFrame::MyFrame()
   tipoJugadores.Add("IA Avanzada");
 
   // Boton Comenzar Juego.
-  wxButton* startGameBtn = new wxButton(this, wxID_ANY, "Empezar Juego",
-                                        wxPoint(300, 400), wxSize(200, 100));
+  startGameBtn = new wxButton(this, wxID_ANY, "Empezar Juego",
+                                        wxDefaultPosition, wxSize(200, 100));
   // Texto Jugador 1
-  wxStaticText* jugador1Lbl =
-      new wxStaticText(this, wxID_ANY, "Jugador 1:", wxPoint(10, 20));
+  jugador1Lbl =
+      new wxStaticText(this, wxID_ANY, "Jugador 1:");
   // Nombre Jugador 1
-  wxTextCtrl* nombreJugador1Txt = new wxTextCtrl(
-      this, wxID_ANY, "Nombre", wxPoint(90, 12), wxSize(200, -1));
+  nombreJugador1Txt = new wxTextCtrl(
+      this, wxID_ANY, "Nombre", wxDefaultPosition, wxSize(200, -1));
   // RadioBox Jugador 1
-  wxRadioBox* tipoJugador1Rb =
-      new wxRadioBox(this, wxID_ANY, "Tipo de jugador", wxPoint(15, 50),
+  tipoJugador1Rb =
+      new wxRadioBox(this, wxID_ANY, "Tipo de jugador", wxDefaultPosition,
                      wxSize(300, -1), tipoJugadores);
 
   // Texto Jugador 2
-  wxStaticText* jugador2Lbl =
-      new wxStaticText(this, wxID_ANY, "Jugador 2:", wxPoint(10, 150));
+  jugador2Lbl =
+      new wxStaticText(this, wxID_ANY, "Jugador 2:");
   // Nombre Jugador 2
-  wxTextCtrl* nombreJugador2Txt = new wxTextCtrl(
-      this, wxID_ANY, "Nombre", wxPoint(90, 142), wxSize(200, -1));
+  nombreJugador2Txt = new wxTextCtrl(
+      this, wxID_ANY, "Nombre", wxDefaultPosition, wxSize(200, -1));
   // RadioBox Jugador 2
-  wxRadioBox* tipoJugador2Rb =
-      new wxRadioBox(this, wxID_ANY, "Tipo de jugador", wxPoint(20, 180),
+  tipoJugador2Rb =
+      new wxRadioBox(this, wxID_ANY, "Tipo de jugador", wxDefaultPosition,
                      wxSize(300, -1), tipoJugadores);
 
   // Texto Tamaño del tablero
-  wxStaticText* tableroConfigLbl =
-      new wxStaticText(this, wxID_ANY, "Tamaño del tablero ", wxPoint(10, 250));
+  tableroConfigLbl =
+      new wxStaticText(this, wxID_ANY, "Tamaño del tablero ");
   // Texto largo
-  wxStaticText* largoLbl =
-      new wxStaticText(this, wxID_ANY, "Largo: ", wxPoint(10, 300));
+  largoLbl =
+      new wxStaticText(this, wxID_ANY, "Largo: ");
   // Spin largo
-  wxSpinCtrl* largoSc = new wxSpinCtrl(this, wxID_ANY, "", wxPoint(62, 290),
+  largoSc = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition,
                                        wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
   // Texto ancho
-  wxStaticText* anchoLbl =
-      new wxStaticText(this, wxID_ANY, "Ancho: ", wxPoint(10, 350));
+  anchoLbl =
+      new wxStaticText(this, wxID_ANY, "Ancho: ");
   // Spin ancho
-  wxSpinCtrl* anchoSc = new wxSpinCtrl(this, wxID_ANY, "", wxPoint(62, 340),
+  anchoSc = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition,
                                        wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
 
+  wxBoxSizer* frameSizer = new wxBoxSizer(wxVERTICAL);
+  // Elementos jugador 1
+  wxBoxSizer* jugador1NombreSizer = new wxBoxSizer(wxHORIZONTAL);
+  jugador1NombreSizer->Add(jugador1Lbl);
+  jugador1NombreSizer->Add(nombreJugador1Txt);
+  frameSizer->Add(jugador1NombreSizer, wxSizerFlags().Expand().Border(wxLEFT, 10));
+  frameSizer->Add(tipoJugador1Rb, wxSizerFlags().Border(wxLEFT | wxDOWN, 15));
+  // Elementos jugador 2
+  wxBoxSizer* jugador2NombreSizer = new wxBoxSizer(wxHORIZONTAL);
+  jugador2NombreSizer->Add(jugador2Lbl);
+  jugador2NombreSizer->Add(nombreJugador2Txt);
+  frameSizer->Add(jugador2NombreSizer, wxSizerFlags().Expand().Border(wxLEFT, 10));
+  frameSizer->Add(tipoJugador2Rb, wxSizerFlags().Border(wxLEFT | wxDOWN, 15));
+  frameSizer->Add(tableroConfigLbl, wxSizerFlags().Expand());
+  frameSizer->AddStretchSpacer();
+  // Elementos largo tablero
+  wxBoxSizer* largoSizer = new wxBoxSizer(wxHORIZONTAL);
+  largoSizer->Add(largoLbl);
+  largoSizer->Add(largoSc);
+  frameSizer->Add(largoSizer, wxSizerFlags().Expand().Border(wxLEFT | wxDOWN, 15));
+  // Elementos ancho tablero
+  wxBoxSizer* anchoSizer = new wxBoxSizer(wxHORIZONTAL);
+  anchoSizer->Add(anchoLbl);
+  anchoSizer->Add(anchoSc);
+  frameSizer->Add(anchoSizer, wxSizerFlags().Expand().Border(wxLEFT | wxDOWN, 15));
+  // Elementos Boton
+  wxBoxSizer* startGameSizer = new wxBoxSizer(wxHORIZONTAL);
+  startGameSizer->AddStretchSpacer();
+  startGameSizer->Add(startGameBtn);
+  startGameSizer->AddStretchSpacer();
+  frameSizer->AddStretchSpacer();
+  frameSizer->Add(startGameSizer, wxSizerFlags().Expand().Proportion(1));
+  SetSizerAndFit(frameSizer);
   Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
 }
