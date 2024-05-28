@@ -1,3 +1,4 @@
+
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
 
@@ -8,14 +9,22 @@ class MyApp : public wxApp {
 
 wxIMPLEMENT_APP(MyApp);
 
-class MyFrame : public wxFrame {
+// Menu de la configuración del juego
+class MainMenuDialog : public wxDialog {
  public:
-  MyFrame();
+  MainMenuDialog(wxWindow* parent, wxWindowID id = wxID_ANY,
+                 const wxString& title = "Nuevo juego",
+                 const wxPoint& pos = wxDefaultPosition,
+                 const wxSize& size = wxSize(800, 600),
+                 long style = wxDEFAULT_DIALOG_STYLE)
+      : wxDialog(parent, id, title, pos, size, style) {
+    BuildDialog();
+  }
+  wxString GetPlayer1Name();
+  wxString GetPlayer2Name();
 
  private:
-  void OnHello(wxCommandEvent& event);
-  void OnExit(wxCommandEvent& event);
-  void OnAbout(wxCommandEvent& event);
+  void BuildDialog();
   wxStaticText* jugador1Lbl;
   wxTextCtrl* nombreJugador1Txt;
   wxRadioBox* tipoJugador1Rb;
@@ -24,21 +33,54 @@ class MyFrame : public wxFrame {
   wxRadioBox* tipoJugador2Rb;
   wxStaticText* tableroConfigLbl;
   wxStaticText* largoLbl;
-   wxSpinCtrl* largoSc;
+  wxSpinCtrl* largoSc;
   wxStaticText* anchoLbl;
   wxSpinCtrl* anchoSc;
-  wxButton* startGameBtn;
 };
 
-enum { ID_Hello = 1 };
+// Dialog con pregunta de revancha
+class ReplayDialog : public wxDialog {
+ public:
+  ReplayDialog(wxWindow* parent, wxWindowID id = wxID_ANY,
+               const wxString& title = "",
+               const wxPoint& pos = wxDefaultPosition,
+               const wxSize& size = wxDefaultSize,
+               long style = wxDEFAULT_DIALOG_STYLE)
+      : wxDialog(parent, id, title, pos, size, style) {
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+    wxStaticText* replay = new wxStaticText(this, wxID_ANY, "Revancha?");
+    mainSizer->Add(replay);
+    mainSizer->Add(CreateButtonSizer(wxOK | wxCANCEL), 0,
+                   wxALIGN_CENTER | wxALL);
+    SetSizerAndFit(mainSizer);
+  }
+};
+
+// Frame principal del juego
+class NewGameFrame : public wxFrame {
+ public:
+  NewGameFrame();
+
+ private:
+  void OnExit(wxCommandEvent& event);
+  void OnAbout(wxCommandEvent& event);
+  void showConfigurationDialog();
+  void buildGame(wxString player1Name, wxString player2Name);
+  void OnWin(wxCommandEvent& event);
+  wxStaticText* jugador1NameLbl;
+  wxStaticText* jugador1WinsLbl;
+  wxStaticText* jugador2NameLbl;
+  wxStaticText* jugador2WinsLbl;
+};
 
 bool MyApp::OnInit() {
-  MyFrame* frame = new MyFrame();
+  NewGameFrame* frame = new NewGameFrame();
   frame->Show(true);
   return true;
 }
 
-MyFrame::MyFrame()
+// Constructor del frame principal del juego
+NewGameFrame::NewGameFrame()
     : wxFrame(nullptr, wxID_ANY, "4 En linea", wxDefaultPosition,
               wxSize(800, 600)) {
   wxMenu* menuFile = new wxMenu;
@@ -55,93 +97,149 @@ MyFrame::MyFrame()
 
   CreateStatusBar();
   SetStatusText("Bienvenido a 4 en linea!");
+  Bind(wxEVT_MENU, &NewGameFrame::OnAbout, this, wxID_ABOUT);
+  Bind(wxEVT_MENU, &NewGameFrame::OnExit, this, wxID_EXIT);
+  showConfigurationDialog();
+}
 
+// Metodo que muestra el dialog de configuración del juego
+void NewGameFrame::showConfigurationDialog() {
+  MainMenuDialog dialog(this);
+  if (dialog.ShowModal() == wxID_OK) {
+    buildGame(dialog.GetPlayer1Name(), dialog.GetPlayer2Name());
+  } else {
+    Close(true);
+  }
+}
+
+// Metodo que construye la ventana del juego
+void NewGameFrame::buildGame(wxString player1Name, wxString player2Name) {
+  wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+  wxBoxSizer* jugador1Sizer = new wxBoxSizer(wxVERTICAL);
+  jugador1NameLbl = new wxStaticText(this, wxID_ANY, player1Name);
+  jugador1WinsLbl = new wxStaticText(this, wxID_ANY, "Victorias: 0");
+  jugador1Sizer->Add(jugador1NameLbl);
+  jugador1Sizer->Add(jugador1WinsLbl);
+  wxBoxSizer* jugador2Sizer = new wxBoxSizer(wxVERTICAL);
+  jugador2NameLbl = new wxStaticText(this, wxID_ANY, player2Name);
+  jugador2WinsLbl = new wxStaticText(this, wxID_ANY, "Victorias: 0");
+  jugador2Sizer->Add(jugador2NameLbl);
+  jugador2Sizer->Add(jugador2WinsLbl);
+
+  wxBoxSizer* playersSizer = new wxBoxSizer(wxHORIZONTAL);
+  playersSizer->Add(jugador1Sizer);
+  playersSizer->AddStretchSpacer();
+  playersSizer->Add(jugador2Sizer);
+
+  mainSizer->Add(playersSizer, wxSizerFlags().Expand());
+  // Boton para probar funcionalidad
+  // TODO: Agregar conexión con la parte lógica cuando este terminada.
+  wxButton* winButton =
+      new wxButton(this, wxID_ANY, "Ganar", wxDefaultPosition, wxDefaultSize);
+  mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
+
+  this->SetSizerAndFit(mainSizer);
+  winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);
+}
+
+// Metodo encargado de manejar cuando un jugador gana
+void NewGameFrame::OnWin(wxCommandEvent& event) {
+  ReplayDialog dialog(this);
+  if (dialog.ShowModal() == wxID_OK) {
+    // TODO: Agregar Clean al tablero para la revancha
+    SetStatusText("Tablero limpiado");
+  } else {
+    // TODO: Agregar un metodo restartGame
+    showConfigurationDialog();
+  }
+}
+
+void NewGameFrame::OnExit(wxCommandEvent& event) { Close(true); }
+
+void NewGameFrame::OnAbout(wxCommandEvent& event) {
+  wxMessageBox("This is a wxWidgets Hello World example", "About Hello World",
+               wxOK | wxICON_INFORMATION);
+}
+
+// Metodo que crea los elementos necesarios para configurar el juego
+void MainMenuDialog::BuildDialog() {
   wxArrayString tipoJugadores;
   tipoJugadores.Add("Persona");
   tipoJugadores.Add("IA Facil");
   tipoJugadores.Add("IA Avanzada");
 
-  // Boton Comenzar Juego.
-  startGameBtn = new wxButton(this, wxID_ANY, "Empezar Juego",
-                                        wxDefaultPosition, wxSize(200, 100));
   // Texto Jugador 1
-  jugador1Lbl =
-      new wxStaticText(this, wxID_ANY, "Jugador 1:");
+  jugador1Lbl = new wxStaticText(this, wxID_ANY, "Jugador 1:");
   // Nombre Jugador 1
-  nombreJugador1Txt = new wxTextCtrl(
-      this, wxID_ANY, "Nombre", wxDefaultPosition, wxSize(200, -1));
+  nombreJugador1Txt = new wxTextCtrl(this, wxID_ANY, "Nombre",
+                                     wxDefaultPosition, wxSize(200, -1));
   // RadioBox Jugador 1
   tipoJugador1Rb =
       new wxRadioBox(this, wxID_ANY, "Tipo de jugador", wxDefaultPosition,
                      wxSize(300, -1), tipoJugadores);
 
   // Texto Jugador 2
-  jugador2Lbl =
-      new wxStaticText(this, wxID_ANY, "Jugador 2:");
+  jugador2Lbl = new wxStaticText(this, wxID_ANY, "Jugador 2:");
   // Nombre Jugador 2
-  nombreJugador2Txt = new wxTextCtrl(
-      this, wxID_ANY, "Nombre", wxDefaultPosition, wxSize(200, -1));
+  nombreJugador2Txt = new wxTextCtrl(this, wxID_ANY, "Nombre",
+                                     wxDefaultPosition, wxSize(200, -1));
   // RadioBox Jugador 2
   tipoJugador2Rb =
       new wxRadioBox(this, wxID_ANY, "Tipo de jugador", wxDefaultPosition,
                      wxSize(300, -1), tipoJugadores);
 
   // Texto Tamaño del tablero
-  tableroConfigLbl =
-      new wxStaticText(this, wxID_ANY, "Tamaño del tablero ");
+  tableroConfigLbl = new wxStaticText(this, wxID_ANY, "Tamaño del tablero ");
   // Texto largo
-  largoLbl =
-      new wxStaticText(this, wxID_ANY, "Largo: ");
+  largoLbl = new wxStaticText(this, wxID_ANY, "Largo: ");
   // Spin largo
   largoSc = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition,
-                                       wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
+                           wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
   // Texto ancho
-  anchoLbl =
-      new wxStaticText(this, wxID_ANY, "Ancho: ");
+  anchoLbl = new wxStaticText(this, wxID_ANY, "Ancho: ");
   // Spin ancho
   anchoSc = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition,
-                                       wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
-
-  wxBoxSizer* frameSizer = new wxBoxSizer(wxVERTICAL);
+                           wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
+  wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
   // Elementos jugador 1
   wxBoxSizer* jugador1NombreSizer = new wxBoxSizer(wxHORIZONTAL);
   jugador1NombreSizer->Add(jugador1Lbl);
   jugador1NombreSizer->Add(nombreJugador1Txt);
-  frameSizer->Add(jugador1NombreSizer, wxSizerFlags().Expand().Border(wxLEFT, 10));
-  frameSizer->Add(tipoJugador1Rb, wxSizerFlags().Border(wxLEFT | wxDOWN, 15));
+  mainSizer->Add(jugador1NombreSizer,
+                 wxSizerFlags().Expand().Border(wxLEFT, 10));
+  mainSizer->Add(tipoJugador1Rb, wxSizerFlags().Border(wxLEFT | wxDOWN, 15));
   // Elementos jugador 2
   wxBoxSizer* jugador2NombreSizer = new wxBoxSizer(wxHORIZONTAL);
   jugador2NombreSizer->Add(jugador2Lbl);
   jugador2NombreSizer->Add(nombreJugador2Txt);
-  frameSizer->Add(jugador2NombreSizer, wxSizerFlags().Expand().Border(wxLEFT, 10));
-  frameSizer->Add(tipoJugador2Rb, wxSizerFlags().Border(wxLEFT | wxDOWN, 15));
-  frameSizer->Add(tableroConfigLbl, wxSizerFlags().Expand());
-  frameSizer->AddStretchSpacer();
+  mainSizer->Add(jugador2NombreSizer,
+                 wxSizerFlags().Expand().Border(wxLEFT, 10));
+  mainSizer->Add(tipoJugador2Rb, wxSizerFlags().Border(wxLEFT | wxDOWN, 15));
+  mainSizer->Add(tableroConfigLbl, wxSizerFlags().Expand());
+  mainSizer->AddStretchSpacer();
   // Elementos largo tablero
   wxBoxSizer* largoSizer = new wxBoxSizer(wxHORIZONTAL);
   largoSizer->Add(largoLbl);
   largoSizer->Add(largoSc);
-  frameSizer->Add(largoSizer, wxSizerFlags().Expand().Border(wxLEFT | wxDOWN, 15));
+  mainSizer->Add(largoSizer,
+                 wxSizerFlags().Expand().Border(wxLEFT | wxDOWN, 15));
   // Elementos ancho tablero
   wxBoxSizer* anchoSizer = new wxBoxSizer(wxHORIZONTAL);
   anchoSizer->Add(anchoLbl);
   anchoSizer->Add(anchoSc);
-  frameSizer->Add(anchoSizer, wxSizerFlags().Expand().Border(wxLEFT | wxDOWN, 15));
-  // Elementos Boton
-  wxBoxSizer* startGameSizer = new wxBoxSizer(wxHORIZONTAL);
-  startGameSizer->AddStretchSpacer();
-  startGameSizer->Add(startGameBtn);
-  startGameSizer->AddStretchSpacer();
-  frameSizer->AddStretchSpacer();
-  frameSizer->Add(startGameSizer, wxSizerFlags().Expand().Proportion(1));
-  SetSizerAndFit(frameSizer);
-  Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
-  Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+  mainSizer->Add(anchoSizer,
+                 wxSizerFlags().Expand().Border(wxLEFT | wxDOWN, 15));
+  mainSizer->AddStretchSpacer();
+  mainSizer->Add(CreateButtonSizer(wxOK | wxCANCEL), 0, wxALIGN_CENTER | wxALL);
+  SetSizerAndFit(mainSizer);
 }
 
-void MyFrame::OnExit(wxCommandEvent& event) { Close(true); }
+// Metodo para retornar el nombre del primer jugador
+wxString MainMenuDialog::GetPlayer1Name() {
+  return nombreJugador1Txt->GetLineText(0);
+}
 
-void MyFrame::OnAbout(wxCommandEvent& event) {
-  wxMessageBox("This is a wxWidgets Hello World example", "About Hello World",
-               wxOK | wxICON_INFORMATION);
+// Metodo para retornar el nombre del segundo jugador
+wxString MainMenuDialog::GetPlayer2Name() {
+  return nombreJugador2Txt->GetLineText(0);
 }
