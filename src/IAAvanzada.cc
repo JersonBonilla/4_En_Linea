@@ -155,7 +155,7 @@ int tabScore(vector<vector<char>> board, char player) {
 			score += scoreSet(set, player);
 		}
 	}
-	for (int f = 0; f < numeroFilas - 3; r++) {
+	for (int f = 0; f < numeroFilas - 3; f++) {
 		for (int c = 0; c < numeroColumnas; c++) {
 			vectorFilas[c] = board[f][c];
 		}
