@@ -8,17 +8,18 @@ class Tablero {
  public:
   Tablero(int filas, int columnas);
   vector<vector<char>> getTableroPrivado();
-  void setTableroPrivado(vector<vector<char>> tableroActualizado);
-  void LlenarCasilla(int columna, vector<vector<char>> tableroPublico,
-                     char ficha);
-  bool ComprobarGanador(vector<vector<char>> tableroPublico, char ficha);
-  bool ComprobarEmpate(vector<vector<char>> tableroPublico);
+  bool validarMovimiento(int columna);
+  void LlenarCasilla(int columna, char ficha);
+  bool ComprobarGanador(char ficha);
+  bool ComprobarEmpate();
   int getFilas();
   int getColumnas();
+  int getCasillasDisponibles();
 
  private:
   int filas;
   int columnas;
+  int casillasDisponibles;
   vector<vector<char>> tableroPrivado;
 };
 #endif
