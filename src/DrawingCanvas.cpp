@@ -26,19 +26,20 @@ void DrawingCanvas::onPaint(wxPaintEvent &) {
     gc->SetPen(wxPen(*wxBLACK));
     wxGraphicsPath path = gc->CreatePath();
     // Se encarga de calcular y agregar al path las lineas de las filas
-    double xSpaces = 600 / boardLength;
+    auto size = this->GetClientSize();
+    double xSpaces = size.GetHeight() / boardLength;
     double xCurrentPosition = xSpaces;
     for (int i = 0; i < boardLength; i++) {
       path.MoveToPoint(0, xCurrentPosition);
-      path.AddLineToPoint(800, xCurrentPosition);
+      path.AddLineToPoint(size.GetWidth(), xCurrentPosition);
       xCurrentPosition += xSpaces;
     }
     // Se encarga de calcular y agregar al path las lineas de las columnas
-    double ySpaces = 800 / boardWidth;
+    double ySpaces = size.GetWidth() / boardWidth;
     double yCurrentPosition = ySpaces;
     for (int i = 0; i < boardWidth; i++) {
       path.MoveToPoint(yCurrentPosition, 0);
-      path.AddLineToPoint(yCurrentPosition, 600);
+      path.AddLineToPoint(yCurrentPosition, size.GetHeight());
       yCurrentPosition += ySpaces;
     }
 
