@@ -1,8 +1,9 @@
 #include <wx/wx.h>
-#include <NewGameFrame.hh>
-#include <MainMenuDialog.hh>
-#include <ReplayDialog.hh>
+
 #include <DrawingCanvas.hh>
+#include <MainMenuDialog.hh>
+#include <NewGameFrame.hh>
+#include <ReplayDialog.hh>
 // Constructor del frame principal del juego
 NewGameFrame::NewGameFrame()
     : wxFrame(nullptr, wxID_ANY, "4 En linea", wxDefaultPosition,
@@ -24,21 +25,22 @@ NewGameFrame::NewGameFrame()
   Bind(wxEVT_MENU, &NewGameFrame::OnAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &NewGameFrame::OnExit, this, wxID_EXIT);
   showConfigurationDialog();
-  this->SetMinSize(wxSize(800, 600));
 }
 
 // Metodo que muestra el dialog de configuración del juego
 void NewGameFrame::showConfigurationDialog() {
   MainMenuDialog dialog(this);
   if (dialog.ShowModal() == wxID_OK) {
-    buildGame(dialog.GetPlayer1Name(), dialog.GetPlayer2Name());
+    buildGame(dialog.GetPlayer1Name(), dialog.GetPlayer2Name(),
+              dialog.GetWidth(), dialog.GetLength());
   } else {
     Close(true);
   }
 }
 
 // Metodo que construye la ventana del juego
-void NewGameFrame::buildGame(wxString player1Name, wxString player2Name) {
+void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
+                             double width, double length) {
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
   wxBoxSizer* jugador1Sizer = new wxBoxSizer(wxVERTICAL);
   jugador1NameLbl = new wxStaticText(this, wxID_ANY, player1Name);
@@ -64,11 +66,11 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name) {
   mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
   winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);*/
 
-  canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+  canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                             width, length);
   mainSizer->Add(canvas, wxSizerFlags().Expand().Proportion(3));
 
   this->SetSizerAndFit(mainSizer);
-  
 }
 
 // Metodo encargado de manejar cuando un jugador gana

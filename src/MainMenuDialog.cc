@@ -1,5 +1,6 @@
-#include <wx/wx.h>
 #include <wx/spinctrl.h>
+#include <wx/wx.h>
+
 #include <MainMenuDialog.hh>
 
 // Metodo que crea los elementos necesarios para configurar el juego
@@ -84,3 +85,6 @@ wxString MainMenuDialog::GetPlayer1Name() {
 wxString MainMenuDialog::GetPlayer2Name() {
   return nombreJugador2Txt->GetLineText(0);
 }
+
+double MainMenuDialog::GetWidth() { return anchoSc->GetValue(); }
+double MainMenuDialog::GetLength() { return largoSc->GetValue(); }
