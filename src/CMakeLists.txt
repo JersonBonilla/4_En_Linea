@@ -23,6 +23,7 @@ set(SRCS
     Tablero.cc
     MainMenuDialog.cc
     NewGameFrame.cc
+    DrawingCanvas.cpp
 )
 
 if(APPLE)

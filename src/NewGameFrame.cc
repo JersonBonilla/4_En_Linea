@@ -2,10 +2,11 @@
 #include <NewGameFrame.hh>
 #include <MainMenuDialog.hh>
 #include <ReplayDialog.hh>
+#include <DrawingCanvas.hh>
 // Constructor del frame principal del juego
 NewGameFrame::NewGameFrame()
     : wxFrame(nullptr, wxID_ANY, "4 En linea", wxDefaultPosition,
-              wxSize(800, 600)) {
+              wxDefaultSize) {
   wxMenu* menuFile = new wxMenu;
   menuFile->Append(wxID_EXIT);
 
@@ -23,6 +24,7 @@ NewGameFrame::NewGameFrame()
   Bind(wxEVT_MENU, &NewGameFrame::OnAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &NewGameFrame::OnExit, this, wxID_EXIT);
   showConfigurationDialog();
+  this->SetMinSize(wxSize(800, 600));
 }
 
 // Metodo que muestra el dialog de configuración del juego
@@ -57,12 +59,16 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name) {
   mainSizer->Add(playersSizer, wxSizerFlags().Expand());
   // Boton para probar funcionalidad
   // TODO: Agregar conexión con la parte lógica cuando este terminada.
-  wxButton* winButton =
+  /*wxButton* winButton =
       new wxButton(this, wxID_ANY, "Ganar", wxDefaultPosition, wxDefaultSize);
   mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
+  winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);*/
+
+  canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+  mainSizer->Add(canvas, wxSizerFlags().Expand().Proportion(3));
 
   this->SetSizerAndFit(mainSizer);
-  winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);
+  
 }
 
 // Metodo encargado de manejar cuando un jugador gana

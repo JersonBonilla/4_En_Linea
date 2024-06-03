@@ -1,6 +1,7 @@
 #ifndef NEWGAMEFRAME_HH
 #define NEWGAMEFRAME_HH
 #include <wx/wx.h>
+#include <DrawingCanvas.hh>
 // Frame principal del juego
 class NewGameFrame : public wxFrame {
  public:
@@ -16,5 +17,6 @@ class NewGameFrame : public wxFrame {
   wxStaticText* jugador1WinsLbl;
   wxStaticText* jugador2NameLbl;
   wxStaticText* jugador2WinsLbl;
+  DrawingCanvas* canvas;
 };
 #endif
