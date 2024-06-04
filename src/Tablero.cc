@@ -15,9 +15,6 @@ Tablero::Tablero(int filas, int columnas, char jugador1, char jugador2) : filas(
 // Returns tableroPrivado.
 vector<vector<char>> Tablero::getTableroPrivado() { return tableroPrivado; }
 
-// Sets TableroPrivado to a new tablero
-void Tablero::setTableroPrivado(vector<vector<char>> nuevoTableroPrivado) { tableroPrivado =  nuevoTableroPrivado; }
-
 // Checks if it is a valid move.
 bool Tablero::validarMovimiento(int columna) {
   if (tableroPrivado[0][columna] != '-') {

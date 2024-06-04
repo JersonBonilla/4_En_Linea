@@ -8,7 +8,6 @@ class Tablero {
  public:
   Tablero(int filas, int columnas, char jugador1, char jugador2);
   vector<vector<char>> getTableroPrivado();
-  void setTableroPrivado(vector<vector<char>> nuevoTableroPrivado);
   bool validarMovimiento(int columna);
   void LlenarCasilla(int columna, char ficha);
   bool ComprobarGanador(char ficha);
