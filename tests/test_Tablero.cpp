@@ -2,7 +2,7 @@
 #include <Tablero.hh>
 
 TEST(TableroTest, Constructor) {
-    Tablero tableroPrueba(6, 7);
+    Tablero tableroPrueba(6, 7, '1', '2');
     ASSERT_EQ(tableroPrueba.getFilas(), 6);
     ASSERT_EQ(tableroPrueba.getColumnas(), 7);
     ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 42);
@@ -11,19 +11,19 @@ TEST(TableroTest, Constructor) {
 }
 
 TEST(TableroTest, LlenarCasilla) {
-    Tablero tableroPrueba(10, 10);
+    Tablero tableroPrueba(10, 10, '1', '2');
     tableroPrueba.LlenarCasilla(0,'x');
     ASSERT_EQ(tableroPrueba.getTableroPrivado()[9][0], 'x');
 }
 
 TEST(TableroTest, LlenarCasilla2) {
-    Tablero tableroPrueba(10, 10);
+    Tablero tableroPrueba(10, 10, '1', '2');
     tableroPrueba.LlenarCasilla(9,'x');
     ASSERT_EQ(tableroPrueba.getTableroPrivado()[9][9], 'x');
 }
 
 TEST(TableroTest, ComprobarGanadorVertical) {
-    Tablero tableroPrueba(5, 5);
+    Tablero tableroPrueba(5, 5, '1', '2');
     tableroPrueba.LlenarCasilla(0,'x');
     tableroPrueba.LlenarCasilla(0,'x');
     tableroPrueba.LlenarCasilla(0,'x');
@@ -32,7 +32,7 @@ TEST(TableroTest, ComprobarGanadorVertical) {
 }
 
 TEST(TableroTest, ComprobarGanadorHorizontal) {
-    Tablero tableroPrueba(5, 5);
+    Tablero tableroPrueba(5, 5, '1', '2');
     tableroPrueba.LlenarCasilla(0,'x');
     tableroPrueba.LlenarCasilla(1,'x');
     tableroPrueba.LlenarCasilla(2,'x');
@@ -40,7 +40,7 @@ TEST(TableroTest, ComprobarGanadorHorizontal) {
     ASSERT_TRUE(tableroPrueba.ComprobarGanador('x'));
 }
 TEST(TableroTest, ComprobarGanadorDiagonalDerechaArribaIzquierdaAbajo) {
-    Tablero tableroPrueba(5, 5);
+    Tablero tableroPrueba(5, 5, '1', '2');
     tableroPrueba.LlenarCasilla(0,'x');
     tableroPrueba.LlenarCasilla(1,'o');
     tableroPrueba.LlenarCasilla(1,'x');
@@ -55,7 +55,7 @@ TEST(TableroTest, ComprobarGanadorDiagonalDerechaArribaIzquierdaAbajo) {
 }
 
 TEST(TableroTest, ComprobarGanadorDiagonalIzquierdaArribaDerechaAbajo) {
-    Tablero tableroPrueba(5, 5);
+    Tablero tableroPrueba(5, 5, '1', '2');
     tableroPrueba.LlenarCasilla(0,'o');
     tableroPrueba.LlenarCasilla(0,'o');
     tableroPrueba.LlenarCasilla(0,'o');
@@ -70,7 +70,7 @@ TEST(TableroTest, ComprobarGanadorDiagonalIzquierdaArribaDerechaAbajo) {
 }
 
 TEST(TableroTest, ComprobarGanadorNoGanador) {
-    Tablero tableroPrueba(5, 5);
+    Tablero tableroPrueba(5, 5, '1', '2');
     tableroPrueba.LlenarCasilla(0,'o');
     tableroPrueba.LlenarCasilla(0,'o');
     tableroPrueba.LlenarCasilla(0,'o');
@@ -84,14 +84,14 @@ TEST(TableroTest, ComprobarGanadorNoGanador) {
 }
 
 TEST(TableroTest, ComprobarCasillasDisponiblesTrasMovimiento) {
-    Tablero tableroPrueba(4, 4);
+    Tablero tableroPrueba(4, 4, '1', '2');
     ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 16);
     tableroPrueba.LlenarCasilla(0,'x');
     ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 15);
 }
 
 TEST(TableroTest, ComprobarEmpate) {
-    Tablero tableroPrueba(4, 4);
+    Tablero tableroPrueba(4, 4, '1', '2');
     tableroPrueba.LlenarCasilla(0,'0');
     tableroPrueba.LlenarCasilla(0,'1');
     tableroPrueba.LlenarCasilla(0,'2');
@@ -112,7 +112,7 @@ TEST(TableroTest, ComprobarEmpate) {
 }
 
 TEST(TableroTest, ComprobarNoEmpate) {
-    Tablero tableroPrueba(4, 4);
+    Tablero tableroPrueba(4, 4, '1', '2');
     tableroPrueba.LlenarCasilla(0,'0');
     tableroPrueba.LlenarCasilla(0,'1');
     tableroPrueba.LlenarCasilla(0,'2');
@@ -132,7 +132,7 @@ TEST(TableroTest, ComprobarNoEmpate) {
 }
 
 TEST(TableroTest, MovimientoInvalido) {
-    Tablero tableroPrueba(4, 4);
+    Tablero tableroPrueba(4, 4, '1', '2');
     tableroPrueba.LlenarCasilla(0,'x');
     tableroPrueba.LlenarCasilla(0,'o');
     tableroPrueba.LlenarCasilla(0,'x');
@@ -141,7 +141,7 @@ TEST(TableroTest, MovimientoInvalido) {
 }
 
 TEST(TableroTest, MovimientoValido) {
-    Tablero tableroPrueba(4, 4);
+    Tablero tableroPrueba(4, 4, '1', '2');
     tableroPrueba.LlenarCasilla(0,'x');
     tableroPrueba.LlenarCasilla(0,'o');
     tableroPrueba.LlenarCasilla(0,'x');

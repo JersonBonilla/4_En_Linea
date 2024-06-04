@@ -6,7 +6,7 @@ columnas. Assigns to filas and columnas their respective values and creates a
 new vector where every value is another vector. This one is then assigned to
 tableroPrivado.
 */
-Tablero::Tablero(int filas, int columnas) : filas(filas), columnas(columnas) {
+Tablero::Tablero(int filas, int columnas, char jugador1, char jugador2) : filas(filas), columnas(columnas), jugador1(jugador1), jugador2(jugador2) {
   vector<vector<char>> nuevoTablero(filas, vector<char>(columnas, '-'));
   tableroPrivado = nuevoTablero;
   casillasDisponibles = filas * columnas;
@@ -14,6 +14,9 @@ Tablero::Tablero(int filas, int columnas) : filas(filas), columnas(columnas) {
 
 // Returns tableroPrivado.
 vector<vector<char>> Tablero::getTableroPrivado() { return tableroPrivado; }
+
+// Sets TableroPrivado to a new tablero
+void Tablero::setTableroPrivado(vector<vector<char>> nuevoTableroPrivado) { tableroPrivado =  nuevoTableroPrivado; }
 
 // Checks if it is a valid move.
 bool Tablero::validarMovimiento(int columna) {
@@ -112,3 +115,15 @@ int Tablero::getColumnas() { return columnas; }
 
 // Returns the value of casillasDisponibles.
 int Tablero::getCasillasDisponibles() { return casillasDisponibles; }
+
+// Returns jugador1
+char Tablero::getJugador1() { return jugador1; }
+
+// Returns jugador2
+char Tablero::getJugador2() { return jugador2; }
+
+// Returns turnos
+int Tablero::getTurnos() { return turnos; }
+
+// Increases turns by 1
+void Tablero::aumentarTurnosEn1() { turnos++; }
