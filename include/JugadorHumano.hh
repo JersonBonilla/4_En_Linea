@@ -6,6 +6,9 @@
 
 using namespace std;
 
-class JugadoHumano : public IJugador{
+class JugadoHumano : public IJugador {
+ public:
+  JugadoHumano(string nombre, bool primerJugador);
+  Color fichaJugador;
 };
 #endif

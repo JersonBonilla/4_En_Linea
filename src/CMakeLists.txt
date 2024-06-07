@@ -22,6 +22,8 @@ set(SRCS
     main.cpp
     Tablero.cc
     IAAvanzada.cc
+    IAFacil.cc
+    JugadorHumano.cc
 )
 
 if(APPLE)
@@ -44,6 +46,8 @@ set(SECOND_TARGET_NAME Jugar_En_Terminal)
 set(SECOND_SRCS 
     Tablero.cc
     IAAvanzada.cc
+    IAFacil.cc
+    JugadorHumano.cc
     jugarEnTerminal.cpp
 )
 

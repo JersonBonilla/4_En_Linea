@@ -4,11 +4,20 @@
 
 using namespace std;
 
-class IJugador{
-    public:
-    IJugador(string nombre, bool primerJugador): nombre(nombre), primerJugador(primerJugador){}
-    string nombre;
-    int partidasGanadas;
-    bool primerJugador;
+enum Color { VACIO = 0, AMARILLO = 1, ROJO = 2, PRUEBA = 3 };
+
+class IJugador {
+ public:
+  IJugador(string nombre, bool primerJugador)
+      : nombre(nombre), primerJugador(primerJugador) {}
+  int getPartidasGanadas() { return partidasGanadas; }
+  string getNombre() { return nombre; }
+  bool getPrimerJugador() { return primerJugador; }
+  void incrementarPartidasGanadas() { partidasGanadas++; }
+
+ protected:
+  int partidasGanadas;
+  string nombre;
+  bool primerJugador;
 };
 #endif

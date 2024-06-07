@@ -6,18 +6,24 @@ columnas. Assigns to filas and columnas their respective values and creates a
 new vector where every value is another vector. This one is then assigned to
 tableroPrivado.
 */
-Tablero::Tablero(int filas, int columnas, char jugador1, char jugador2) : filas(filas), columnas(columnas), jugador1(jugador1), jugador2(jugador2) {
-  vector<vector<char>> nuevoTablero(filas, vector<char>(columnas, '-'));
+Tablero::Tablero(int filas, int columnas) : filas(filas), columnas(columnas) {
+  vector<vector<Color>> nuevoTablero(filas,
+                                     vector<Color>(columnas, Color::VACIO));
   tableroPrivado = nuevoTablero;
   casillasDisponibles = filas * columnas;
+  jugador1 = Color::AMARILLO;
+  jugador2 = Color::ROJO;
 }
 
 // Returns tableroPrivado.
-vector<vector<char>> Tablero::getTableroPrivado() { return tableroPrivado; }
+vector<vector<Color>> Tablero::getTableroPrivado() { return tableroPrivado; }
 
 // Checks if it is a valid move.
 bool Tablero::validarMovimiento(int columna) {
-  if (tableroPrivado[0][columna] != '-') {
+  if (columna < 0 || columna > columnas - 1) {
+    return false;
+  }
+  if (tableroPrivado[0][columna] != Color::VACIO) {
     return false;
   }
   return true;
@@ -25,10 +31,10 @@ bool Tablero::validarMovimiento(int columna) {
 
 // Fills the specific space of the column in n with char ficha only if its
 // available.
-void Tablero::LlenarCasilla(int columna, char ficha) {
+void Tablero::LlenarCasilla(int columna, Color ficha) {
   for (int f = filas - 1; f >= 0; f--) {
     bool casillaOcupada = false;
-    if (tableroPrivado[f][columna] != '-') {
+    if (tableroPrivado[f][columna] != Color::VACIO) {
       casillaOcupada = true;
     } else {
       tableroPrivado[f][columna] = ficha;
@@ -36,10 +42,11 @@ void Tablero::LlenarCasilla(int columna, char ficha) {
       break;
     }
   }
+  turnos++;
 }
 
 // Check if someone has already won by connecting four in a row.
-bool Tablero::ComprobarGanador(char ficha) {
+bool Tablero::ComprobarGanador(Color ficha) {
   // Check horizontal spaces
   for (int f = 0; f < filas; f++) {
     int contador = 0;
@@ -113,14 +120,23 @@ int Tablero::getColumnas() { return columnas; }
 // Returns the value of casillasDisponibles.
 int Tablero::getCasillasDisponibles() { return casillasDisponibles; }
 
-// Returns jugador1
-char Tablero::getJugador1() { return jugador1; }
-
-// Returns jugador2
-char Tablero::getJugador2() { return jugador2; }
-
 // Returns turnos
 int Tablero::getTurnos() { return turnos; }
 
-// Increases turns by 1
-void Tablero::aumentarTurnosEn1() { turnos++; }
+// Returns jugador1
+Color Tablero::getJugador1() { return jugador1; }
+
+// Returns jugador2
+Color Tablero::getJugador2() { return jugador2; }
+
+// Returns fichaVacia
+Color Tablero::getFichaVacia() { return fichaVacia; }
+
+// Cleans the current Tablero
+void Tablero::limpiarTablero() {
+  vector<vector<Color>> nuevoTablero(filas,
+                                     vector<Color>(columnas, Color::VACIO));
+  tableroPrivado = nuevoTablero;
+  casillasDisponibles = filas * columnas;
+  turnos = 0;
+}

@@ -1,32 +1,35 @@
 #ifndef TABLERO_HH
 #define TABLERO_HH
+#include <IJugador.hh>
 #include <string>
 #include <vector>
 using namespace std;
 
 class Tablero {
  public:
-  Tablero(int filas, int columnas, char jugador1, char jugador2);
-  vector<vector<char>> getTableroPrivado();
+  Tablero(int filas, int columnas);
+  vector<vector<Color>> getTableroPrivado();
   bool validarMovimiento(int columna);
-  void LlenarCasilla(int columna, char ficha);
-  bool ComprobarGanador(char ficha);
+  void LlenarCasilla(int columna, Color ficha);
+  bool ComprobarGanador(Color ficha);
   bool ComprobarEmpate();
   int getFilas();
   int getColumnas();
   int getCasillasDisponibles();
-  char getJugador1();
-  char getJugador2();
   int getTurnos();
-  void aumentarTurnosEn1();
+  Color getJugador1();
+  Color getJugador2();
+  Color getFichaVacia();
+  void limpiarTablero();
 
  private:
   int filas;
   int columnas;
   int casillasDisponibles;
-  vector<vector<char>> tableroPrivado;
-  char jugador1;
-  char jugador2;
+  vector<vector<Color>> tableroPrivado;
   int turnos = 0;
+  Color jugador1 = Color::AMARILLO;
+  Color jugador2 = Color::ROJO;
+  Color fichaVacia = Color::VACIO;
 };
 #endif
