@@ -17,10 +17,9 @@ class Tablero {
   int getColumnas();
   int getCasillasDisponibles();
   int getTurnos();
-  Color getJugador1();
-  Color getJugador2();
-  Color getFichaVacia();
   void limpiarTablero();
+  int getUltimaFila();
+  int getUltimaColumna();
 
  private:
   int filas;
@@ -28,8 +27,7 @@ class Tablero {
   int casillasDisponibles;
   vector<vector<Color>> tableroPrivado;
   int turnos = 0;
-  Color jugador1 = Color::AMARILLO;
-  Color jugador2 = Color::ROJO;
-  Color fichaVacia = Color::VACIO;
+  int ultimaFila;
+  int ultimaColumna;
 };
 #endif

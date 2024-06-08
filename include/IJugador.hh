@@ -16,7 +16,7 @@ class IJugador {
   void incrementarPartidasGanadas() { partidasGanadas++; }
 
  protected:
-  int partidasGanadas;
+  int partidasGanadas = 0;
   string nombre;
   bool primerJugador;
 };

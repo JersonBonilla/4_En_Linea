@@ -11,8 +11,6 @@ Tablero::Tablero(int filas, int columnas) : filas(filas), columnas(columnas) {
                                      vector<Color>(columnas, Color::VACIO));
   tableroPrivado = nuevoTablero;
   casillasDisponibles = filas * columnas;
-  jugador1 = Color::AMARILLO;
-  jugador2 = Color::ROJO;
 }
 
 // Returns tableroPrivado.
@@ -38,6 +36,8 @@ void Tablero::LlenarCasilla(int columna, Color ficha) {
       casillaOcupada = true;
     } else {
       tableroPrivado[f][columna] = ficha;
+      ultimaFila = f;
+      ultimaColumna = columna;
       casillasDisponibles--;
       break;
     }
@@ -123,15 +123,6 @@ int Tablero::getCasillasDisponibles() { return casillasDisponibles; }
 // Returns turnos
 int Tablero::getTurnos() { return turnos; }
 
-// Returns jugador1
-Color Tablero::getJugador1() { return jugador1; }
-
-// Returns jugador2
-Color Tablero::getJugador2() { return jugador2; }
-
-// Returns fichaVacia
-Color Tablero::getFichaVacia() { return fichaVacia; }
-
 // Cleans the current Tablero
 void Tablero::limpiarTablero() {
   vector<vector<Color>> nuevoTablero(filas,
@@ -140,3 +131,9 @@ void Tablero::limpiarTablero() {
   casillasDisponibles = filas * columnas;
   turnos = 0;
 }
+
+// Returns ultima fila
+int Tablero::getUltimaFila() { return ultimaFila; }
+
+// Returns ultima columna
+int Tablero::getUltimaColumna() { return ultimaColumna; }

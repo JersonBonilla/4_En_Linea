@@ -158,21 +158,6 @@ TEST(TableroTest, ComprobarTurnos) {
   ASSERT_EQ(tableroPrueba.getTurnos(), 2);
 }
 
-TEST(TableroTest, ComprobarJugador1) {
-  Tablero tableroPrueba(4, 4);
-  ASSERT_EQ(tableroPrueba.getJugador1(), Color::AMARILLO);
-}
-
-TEST(TableroTest, ComprobarJugador2) {
-  Tablero tableroPrueba(4, 4);
-  ASSERT_EQ(tableroPrueba.getJugador2(), Color::ROJO);
-}
-
-TEST(TableroTest, ComprobarVacio) {
-  Tablero tableroPrueba(4, 4);
-  ASSERT_EQ(tableroPrueba.getFichaVacia(), Color::VACIO);
-}
-
 TEST(TableroTest, LimpiarTablero) {
   Tablero tableroPrueba(10, 10);
   ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 100);
@@ -184,4 +169,30 @@ TEST(TableroTest, LimpiarTablero) {
   ASSERT_EQ(tableroPrueba.getTurnos(), 0);
   ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 100);
   ASSERT_EQ(tableroPrueba.getTableroPrivado()[9][0], Color::VACIO);
+}
+
+TEST(TableroTest, UltimaFila) {
+  Tablero tableroPrueba(10, 10);
+  ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 100);
+  tableroPrueba.LlenarCasilla(0, Color::AMARILLO);
+  ASSERT_EQ(tableroPrueba.getTableroPrivado()[9][0], Color::AMARILLO);
+  ASSERT_EQ(tableroPrueba.getTurnos(), 1);
+  ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 99);
+  tableroPrueba.limpiarTablero();
+  ASSERT_EQ(tableroPrueba.getTurnos(), 0);
+  ASSERT_EQ(tableroPrueba.getCasillasDisponibles(), 100);
+  ASSERT_EQ(tableroPrueba.getTableroPrivado()[9][0], Color::VACIO);
+}
+
+TEST(TableroTest, UltimaColumnaYUltiFila) {
+  Tablero tableroPrueba(10, 10);
+  tableroPrueba.LlenarCasilla(9, Color::AMARILLO);
+  ASSERT_EQ(tableroPrueba.getUltimaFila(), 9);
+  ASSERT_EQ(tableroPrueba.getUltimaColumna(), 9);
+  tableroPrueba.LlenarCasilla(0, Color::ROJO);
+  ASSERT_EQ(tableroPrueba.getUltimaFila(), 9);
+  ASSERT_EQ(tableroPrueba.getUltimaColumna(), 0);
+  tableroPrueba.LlenarCasilla(9, Color::AMARILLO);
+  ASSERT_EQ(tableroPrueba.getUltimaFila(), 8);
+  ASSERT_EQ(tableroPrueba.getUltimaColumna(), 9);
 }

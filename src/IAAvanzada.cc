@@ -12,15 +12,18 @@
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 
 using namespace std;
-IAAvanzada::IAAvanzada(string nombre, bool primerJugador, int maxDepth)
+IAAvanzada::IAAvanzada(string nombre, bool primerJugador)
     : IJugador(nombre, primerJugador), maxDepth(maxDepth) {
   if (primerJugador) {
     computadora = Color::AMARILLO;
     jugadorHumano = Color::ROJO;
+    maximizeOrMinimize = 1;
   } else {
     computadora = Color::ROJO;
     jugadorHumano = Color::AMARILLO;
+    maximizeOrMinimize = -1;
   }
+  maxDepth = 3;
 }
 
 // para determinar si va por un movimiento ganador o para bloquear al oponente
@@ -136,14 +139,15 @@ array<int, 2> IAAvanzada::miniMax(Tablero &tablero, int depth, int alpha,
   int turnos = tablero.getTurnos();
 
   // si estamos en la ultima capa de profundidad permitida devolvemos
-  if (depth == 0 || depth >= (numeroFilas * numeroColumnas) - turnos) {
+  if (depth == 0) {
     return array<int, 2>{
-        tabScore(board, computadora, jugadorHumano, computadora), -1};
+        tabScore(board, computadora, jugadorHumano, computadora),
+        maximizeOrMinimize};
   }
   // si es una IA
   if (player == computadora) {
     // buscamos el menor valor posible
-    array<int, 2> movimientoTemporal = {INT_MIN, -1};
+    array<int, 2> movimientoTemporal = {INT_MIN, maximizeOrMinimize};
     // si el jugador esta a punto de ganar.
     if (tablero.ComprobarGanador(jugadorHumano)) {
       // hacemos que sea como el peor score posible, para forzar que bloquee
@@ -176,7 +180,7 @@ array<int, 2> IAAvanzada::miniMax(Tablero &tablero, int depth, int alpha,
   } else {
     // Ahora buscamos movimientos que reduzcan el score, porque queremos hacer
     // minimize a jugador
-    array<int, 2> movimientoTemporal = {INT_MAX, -1};
+    array<int, 2> movimientoTemporal = {INT_MAX, maximizeOrMinimize};
     if (tablero.ComprobarGanador(computadora)) {
       // Si esta a punto de ganar, devolvemos.
       return movimientoTemporal;

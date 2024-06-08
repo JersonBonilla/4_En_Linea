@@ -9,11 +9,12 @@ using namespace std;
 
 class IAAvanzada : public IJugador {
  public:
-  IAAvanzada(string nombre, bool primerJugador, int maxDepth);
+  IAAvanzada(string nombre, bool primerJugador);
   int movimientoIA(Tablero tablero);
   array<int, 2> miniMax(Tablero &tablero, int depth, int alpha, int beta,
                         Color player);
   int maxDepth;
+  int maximizeOrMinimize;
   Color jugadorHumano;
   Color computadora;
 };
