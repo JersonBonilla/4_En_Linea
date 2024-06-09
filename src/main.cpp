@@ -1,4 +1,9 @@
 #include <wx/wx.h>
+#include <Tablero.hh>
+#include <IAAvanzada.hh>
+#include <iostream>
+
+using namespace std;
 
 #include <NewGameFrame.hh>
 class MyApp : public wxApp {

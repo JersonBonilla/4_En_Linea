@@ -21,6 +21,9 @@ set(SRCS
 # TODO: Agregar aquí los archivos fuente de su proyecto
     main.cpp
     Tablero.cc
+    IAAvanzada.cc
+    IAFacil.cc
+    JugadorHumano.cc
     MainMenuDialog.cc
     NewGameFrame.cc
     DrawingCanvas.cpp
@@ -42,6 +45,17 @@ endif()
 target_include_directories(${TARGET_NAME} PUBLIC ${INCLUDE_DIR})
 target_link_libraries(${TARGET_NAME} ${wxWidgets_LIBRARIES})
 
+set(SECOND_TARGET_NAME Jugar_En_Terminal)
+set(SECOND_SRCS 
+    Tablero.cc
+    IAAvanzada.cc
+    IAFacil.cc
+    JugadorHumano.cc
+    jugarEnTerminal.cpp
+)
+
+add_executable(${SECOND_TARGET_NAME} ${SECOND_SRCS})
+target_include_directories(${SECOND_TARGET_NAME} PUBLIC ${INCLUDE_DIR})
 # Si quisieran generar otro ejecutable, con otro nombre, simplemente repitan el proceso:
 # add_executable(NOMBRE_EJECUTABLE archivo1.cpp archivo2.cpp ...)
 # target_include_directories(NOMBRE_EJECUTABLE PUBLIC ${INCLUDE_DIR})
