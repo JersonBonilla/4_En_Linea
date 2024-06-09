@@ -21,6 +21,9 @@ set(SRCS
 # TODO: Agregar aquí los archivos fuente de su proyecto
     main.cpp
     Tablero.cc
+    MainMenuDialog.cc
+    NewGameFrame.cc
+    DrawingCanvas.cpp
 )
 
 if(APPLE)
