@@ -26,21 +26,20 @@ void DrawingCanvas::onPaint(wxPaintEvent &) {
     gc->SetPen(wxPen(*wxBLACK));
     wxGraphicsPath path = gc->CreatePath();
     // Se encarga de calcular y agregar al path las lineas de las filas
+    // Recibe el tamaño dibujable del cliente (ancho, alto)
     auto size = this->GetClientSize();
-    double xSpaces = size.GetHeight() / boardLength;
-    double xCurrentPosition = xSpaces;
-    for (int i = 0; i < boardLength; i++) {
-      path.MoveToPoint(0, xCurrentPosition);
-      path.AddLineToPoint(size.GetWidth(), xCurrentPosition);
-      xCurrentPosition += xSpaces;
+    // Guarda la distancia entre cada linea de las filas del tablero con alto/cantidad de filas
+    double xDistance = size.GetHeight() / boardLength;
+    for (int i = 1; i < boardLength; i++) {
+      path.MoveToPoint(0, xDistance*i);
+      path.AddLineToPoint(size.GetWidth(), xDistance*i);
     }
     // Se encarga de calcular y agregar al path las lineas de las columnas
-    double ySpaces = size.GetWidth() / boardWidth;
-    double yCurrentPosition = ySpaces;
-    for (int i = 0; i < boardWidth; i++) {
-      path.MoveToPoint(yCurrentPosition, 0);
-      path.AddLineToPoint(yCurrentPosition, size.GetHeight());
-      yCurrentPosition += ySpaces;
+    // Guarda la distancia entre cada linea de las columnas del tablero con ancho/cantidad de columnas
+    double yDistance = size.GetWidth() / boardWidth;
+    for (int i = 1; i < boardWidth; i++) {
+      path.MoveToPoint(yDistance*i, 0);
+      path.AddLineToPoint(yDistance*i, size.GetHeight());
     }
 
     gc->StrokePath(path);
