@@ -15,8 +15,8 @@ class MainMenuDialog : public wxDialog {
   }
   wxString GetPlayer1Name();
   wxString GetPlayer2Name();
-  double GetWidth();
-  double GetLength();
+  int GetWidth();
+  int GetLength();
 
  private:
   void BuildDialog();
