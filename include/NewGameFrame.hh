@@ -3,6 +3,10 @@
 #include <wx/wx.h>
 
 #include <DrawingCanvas.hh>
+#include <Tablero.hh>
+
+using namespace std;
+
 // Frame principal del juego
 class NewGameFrame : public wxFrame {
  public:
@@ -12,13 +16,14 @@ class NewGameFrame : public wxFrame {
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
   void showConfigurationDialog();
-  void buildGame(wxString player1Name, wxString player2Name, double width,
-                 double length);
+  void buildGame(wxString player1Name, wxString player2Name, int width,
+                 int length);
   void OnWin(wxCommandEvent& event);
   wxStaticText* jugador1NameLbl;
   wxStaticText* jugador1WinsLbl;
   wxStaticText* jugador2NameLbl;
   wxStaticText* jugador2WinsLbl;
   DrawingCanvas* canvas;
+  Tablero tablero;
 };
 #endif

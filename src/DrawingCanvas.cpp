@@ -1,14 +1,19 @@
 #include <wx/dcbuffer.h>
 #include <wx/graphics.h>
+#include <Tablero.hh>
+#include <vector>
 
 #include <DrawingCanvas.hh>
 
+using namespace std;
+
 DrawingCanvas::DrawingCanvas(wxWindow *parent, wxWindowID id,
                              const wxPoint &pos, const wxSize &size,
-                             double width, double length)
+                             Tablero& tablero)
     : wxWindow(parent, id, pos, size) {
-  boardWidth = width;
-  boardLength = length;
+  playableTablero = tablero;
+  boardWidth = playableTablero.getColumnas();
+  boardLength = playableTablero.getFilas();
   this->SetBackgroundStyle(wxBG_STYLE_PAINT);
   this->Bind(wxEVT_PAINT, &DrawingCanvas::onPaint, this);
   this->Bind(wxEVT_LEFT_DOWN, &DrawingCanvas::onMouseDown, this);
@@ -29,15 +34,15 @@ void DrawingCanvas::onPaint(wxPaintEvent &) {
     // Recibe el tamaño dibujable del cliente (ancho, alto)
     auto size = this->GetClientSize();
     // Guarda la distancia entre cada linea de las filas del tablero con alto/cantidad de filas
-    double xDistance = size.GetHeight() / boardLength;
-    for (int i = 1; i < boardLength; i++) {
+    double xDistance = size.GetHeight() / boardWidth;
+    for (int i = 1; i < boardWidth; i++) {
       path.MoveToPoint(0, xDistance*i);
       path.AddLineToPoint(size.GetWidth(), xDistance*i);
     }
     // Se encarga de calcular y agregar al path las lineas de las columnas
     // Guarda la distancia entre cada linea de las columnas del tablero con ancho/cantidad de columnas
-    double yDistance = size.GetWidth() / boardWidth;
-    for (int i = 1; i < boardWidth; i++) {
+    double yDistance = size.GetWidth() / boardLength;
+    for (int i = 1; i < boardLength; i++) {
       path.MoveToPoint(yDistance*i, 0);
       path.AddLineToPoint(yDistance*i, size.GetHeight());
     }

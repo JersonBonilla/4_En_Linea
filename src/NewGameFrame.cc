@@ -4,6 +4,8 @@
 #include <MainMenuDialog.hh>
 #include <NewGameFrame.hh>
 #include <ReplayDialog.hh>
+
+using namespace std;
 // Constructor del frame principal del juego
 NewGameFrame::NewGameFrame()
     : wxFrame(nullptr, wxID_ANY, "4 En linea", wxDefaultPosition,
@@ -40,7 +42,7 @@ void NewGameFrame::showConfigurationDialog() {
 
 // Metodo que construye la ventana del juego
 void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
-                             double width, double length) {
+                             int width, int length) {
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
   wxBoxSizer* jugador1Sizer = new wxBoxSizer(wxVERTICAL);
   jugador1NameLbl = new wxStaticText(this, wxID_ANY, player1Name);
@@ -65,9 +67,10 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
       new wxButton(this, wxID_ANY, "Ganar", wxDefaultPosition, wxDefaultSize);
   mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
   winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);*/
-
+  tablero = Tablero(width, length);
+  Tablero& tableroToSend = tablero;
   canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                             width, length);
+                             tableroToSend);
   mainSizer->Add(canvas, wxSizerFlags().Expand().Proportion(3));
 
   this->SetSizerAndFit(mainSizer);
