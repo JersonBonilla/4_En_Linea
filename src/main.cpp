@@ -5,13 +5,18 @@
 
 using namespace std;
 
+#include <NewGameFrame.hh>
 class MyApp : public wxApp {
  public:
-  virtual bool OnInit() {
-    wxFrame* frame = new wxFrame(NULL, wxID_ANY, "Hello, World!");
-    frame->Show(true);
-    return true;
-  }
+  bool OnInit() override;
 };
 
 wxIMPLEMENT_APP(MyApp);
+
+bool MyApp::OnInit() {
+  NewGameFrame* frame = new NewGameFrame();
+  frame->SetClientSize(800, 600);
+  frame->Center();
+  frame->Show(true);
+  return true;
+}

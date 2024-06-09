@@ -24,6 +24,9 @@ set(SRCS
     IAAvanzada.cc
     IAFacil.cc
     JugadorHumano.cc
+    MainMenuDialog.cc
+    NewGameFrame.cc
+    DrawingCanvas.cpp
 )
 
 if(APPLE)
