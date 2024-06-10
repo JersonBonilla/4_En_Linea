@@ -67,7 +67,7 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
       new wxButton(this, wxID_ANY, "Ganar", wxDefaultPosition, wxDefaultSize);
   mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
   winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);*/
-  tablero = Tablero(width, length);
+  tablero = Tablero(length, width);
   Tablero& tableroToSend = tablero;
   canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                              tableroToSend);

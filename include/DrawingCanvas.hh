@@ -16,14 +16,10 @@ class DrawingCanvas : public wxWindow {
  private:
   void onPaint(wxPaintEvent &);
   void onMouseDown(wxMouseEvent &);
-  void onMouseMove(wxMouseEvent &);
-  void onMouseUp(wxMouseEvent &);
-  void onMouseLeave(wxMouseEvent &);
   bool isDrawing{};
   int boardWidth = 0;
   int boardLength = 0;
   Tablero playableTablero;
-  vector<vector<wxPoint2DDouble>> squiggles;
 };
 
 #endif
