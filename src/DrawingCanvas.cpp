@@ -4,17 +4,18 @@
 #include <DrawingCanvas.hh>
 #include <Tablero.hh>
 #include <cmath>
+#include <memory>
 #include <vector>
 
 using namespace std;
 
 DrawingCanvas::DrawingCanvas(wxWindow *parent, wxWindowID id,
                              const wxPoint &pos, const wxSize &size,
-                             Tablero &tablero)
+                             shared_ptr<Tablero> tablero)
     : wxWindow(parent, id, pos, size) {
   playableTablero = tablero;
-  boardWidth = playableTablero.getColumnas();
-  boardLength = playableTablero.getFilas();
+  boardWidth = playableTablero->getColumnas();
+  boardLength = playableTablero->getFilas();
   this->SetBackgroundStyle(wxBG_STYLE_PAINT);
   this->Bind(wxEVT_PAINT, &DrawingCanvas::onPaint, this);
   this->Bind(wxEVT_LEFT_DOWN, &DrawingCanvas::onMouseDown, this);
@@ -65,7 +66,7 @@ void DrawingCanvas::onPaint(wxPaintEvent &) {
     // Formula del circulo: x = linea de columna anterior a la jugada + (la
     // distancia entre columnas/2) y = linea de fila anterior a la jugada + (la
     // distancia entre filas/2)
-    vector<vector<Color>> jugadas = playableTablero.getTableroPrivado();
+    vector<vector<Color>> jugadas = playableTablero->getTableroPrivado();
     for (int filas = 0; filas < boardLength; filas++) {
       for (int columnas = 0; columnas < boardWidth; columnas++) {
         if (jugadas[filas][columnas] == Color::ROJO) {
@@ -111,15 +112,15 @@ void DrawingCanvas::onMouseDown(wxMouseEvent &event) {
   // ventana)/distancia entre columnas) + cantidad de columnas
   int columnPosition =
       floor(((mousePosition - size.GetWidth()) / columnDistance) + boardWidth);
-  if (playableTablero.validarMovimiento(columnPosition)) {
+  if (playableTablero->validarMovimiento(columnPosition)) {
     // AMARILLO = segundo jugador, ROJO = primer jugador, se calcula el turno en
     // base a la cantidad de turnos jugados si es par es turno del jugador 2, si
     // no del jugador 1
-    playableTablero.LlenarCasilla(
+    playableTablero->LlenarCasilla(
         columnPosition,
-        ((playableTablero.getTurnos() % 2 != 0) ? Color::AMARILLO
-                                                : Color::ROJO));
-    wxLogStatus(wxString::Format("Turno %d", playableTablero.getTurnos()));
+        ((playableTablero->getTurnos() % 2 != 0) ? Color::AMARILLO
+                                                 : Color::ROJO));
+    wxLogStatus(wxString::Format("Turno %d", playableTablero->getTurnos()));
   } else {
     wxLogStatus("Jugada incorrecta");
   }
