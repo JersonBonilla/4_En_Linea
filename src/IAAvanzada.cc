@@ -203,6 +203,6 @@ array<int, 2> IAAvanzada::miniMax(Tablero &tablero, int depth, int alpha,
   }
 }
 
-int IAAvanzada::movimientoIA(Tablero tablero) {
+int IAAvanzada::movimientoIA(Tablero &tablero) {
   return miniMax(tablero, maxDepth, 0 - INT_MAX, INT_MAX, computadora)[1];
 }
