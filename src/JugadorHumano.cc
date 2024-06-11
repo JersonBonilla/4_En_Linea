@@ -11,3 +11,7 @@ JugadorHumano::JugadorHumano(string nombre, bool primerJugador)
     fichaJugador = Color::ROJO;
   }
 }
+
+int JugadorHumano::movimientoIA(Tablero &tablero) {
+  return -1;
+}

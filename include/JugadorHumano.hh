@@ -10,5 +10,6 @@ class JugadorHumano : public IJugador {
  public:
   JugadorHumano(string nombre, bool primerJugador);
   Color fichaJugador;
+  int movimientoIA(Tablero &tablero);
 };
 #endif
