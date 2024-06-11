@@ -70,7 +70,8 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
   this->SetSizerAndFit(mainSizer);
 }
 
-// Metodo encargado de manejar cuando un jugador gana
+// Metodo encargado de manejar cuando un jugador gana, si se accede a revancha
+// llama a updateGame() de lo contrario crea un juego nuevo.
 void NewGameFrame::OnWin() {
   ReplayDialog dialog(
       this, wxString::Format("Ha ganado el jugador %d",
@@ -89,6 +90,8 @@ void NewGameFrame::OnWin() {
   }
 }
 
+// Metodo que maneja cuando se encuentra un empate, si se accede a revancha
+// llama a updateGame() de lo contrario crea un juego nuevo.
 void NewGameFrame::OnTie() {
   ReplayDialog dialog(this, wxString::Format("Empate"));
   if (dialog.ShowModal() == wxID_OK) {
@@ -105,6 +108,9 @@ void NewGameFrame::OnTie() {
   }
 }
 
+// Metodo que maneja el evento de haber insertado una ficha en el tablero,
+// revisa si se ha dado algún estado ganador si no pide la jugadad del siguiente
+// en ronda.
 void NewGameFrame::OnPlayed(wxCommandEvent& event) {
   if (!tablero->ComprobarEmpate()) {
     if (tablero->ComprobarGanador(
@@ -116,6 +122,7 @@ void NewGameFrame::OnPlayed(wxCommandEvent& event) {
   }
 }
 
+// Limpia el tablero y actualiza las victorias del ultimo jugador que ganó.
 void NewGameFrame::updateGame() {
   tablero->limpiarTablero();
   jugador1WinsLbl->SetLabel(wxString::Format("Victorias: %d", 1));
