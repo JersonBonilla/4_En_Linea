@@ -7,7 +7,6 @@
 #include <memory>
 
 using namespace std;
-
 // Frame principal del juego
 class NewGameFrame : public wxFrame {
  public:
@@ -16,10 +15,11 @@ class NewGameFrame : public wxFrame {
  private:
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
+  void OnPlayed(wxCommandEvent& event);
   void showConfigurationDialog();
   void buildGame(wxString player1Name, wxString player2Name, int width,
                  int length);
-  void OnWin(wxCommandEvent& event);
+  void OnWin();
   wxStaticText* jugador1NameLbl;
   wxStaticText* jugador1WinsLbl;
   wxStaticText* jugador2NameLbl;

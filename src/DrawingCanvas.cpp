@@ -6,9 +6,7 @@
 #include <cmath>
 #include <memory>
 #include <vector>
-
 using namespace std;
-
 DrawingCanvas::DrawingCanvas(wxWindow *parent, wxWindowID id,
                              const wxPoint &pos, const wxSize &size,
                              shared_ptr<Tablero> tablero)
@@ -125,4 +123,7 @@ void DrawingCanvas::onMouseDown(wxMouseEvent &event) {
     wxLogStatus("Jugada incorrecta");
   }
   Refresh();
+  wxCommandEvent playEvent(EVT_PLAYED);
+  playEvent.SetString(" ");
+  wxPostEvent(this->GetParent(), playEvent);
 }
