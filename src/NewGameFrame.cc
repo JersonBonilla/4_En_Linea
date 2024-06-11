@@ -21,7 +21,6 @@ NewGameFrame::NewGameFrame()
   wxMenuBar* menuBar = new wxMenuBar;
   menuBar->Append(menuFile, "&File");
   menuBar->Append(menuHelp, "&Help");
-
   SetMenuBar(menuBar);
   CreateStatusBar();
   SetStatusText("Bienvenido a 4 en linea!");
@@ -63,12 +62,6 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
   playersSizer->Add(jugador2Sizer);
 
   mainSizer->Add(playersSizer, wxSizerFlags().Expand());
-  // Boton para probar funcionalidad
-  // TODO: Agregar conexión con la parte lógica cuando este terminada.
-  /*wxButton* winButton =
-      new wxButton(this, wxID_ANY, "Ganar", wxDefaultPosition, wxDefaultSize);
-  mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
-  winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);*/
   tablero = make_shared<Tablero>(length, width);
   canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
                              tablero);
@@ -79,15 +72,36 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
 
 // Metodo encargado de manejar cuando un jugador gana
 void NewGameFrame::OnWin() {
-  ReplayDialog dialog(this);
+  ReplayDialog dialog(
+      this, wxString::Format("Ha ganado el jugador %d",
+                             (tablero->getTurnos() % 2 == 0) ? 2 : 1));
   if (dialog.ShowModal() == wxID_OK) {
-    tablero->limpiarTablero();
-    Refresh();
-    // TODO: Agregar Clean al tablero para la revancha
+    updateGame();
     SetStatusText("Tablero limpiado");
   } else {
-    // TODO: Agregar un metodo restartGame
+    delete (jugador1NameLbl);
+    delete (jugador1WinsLbl);
+    delete (jugador2NameLbl);
+    delete (jugador2WinsLbl);
+    delete (canvas);
     showConfigurationDialog();
+    SetStatusText("Bienvenido a 4 en linea!");
+  }
+}
+
+void NewGameFrame::OnTie() {
+  ReplayDialog dialog(this, wxString::Format("Empate"));
+  if (dialog.ShowModal() == wxID_OK) {
+    updateGame();
+    SetStatusText("Tablero limpiado");
+  } else {
+    delete (jugador1NameLbl);
+    delete (jugador1WinsLbl);
+    delete (jugador2NameLbl);
+    delete (jugador2WinsLbl);
+    delete (canvas);
+    showConfigurationDialog();
+    SetStatusText("Bienvenido a 4 en linea!");
   }
 }
 
@@ -97,7 +111,15 @@ void NewGameFrame::OnPlayed(wxCommandEvent& event) {
             (tablero->getTurnos() % 2 == 0) ? Color::AMARILLO : Color::ROJO)) {
       OnWin();
     }
+  } else {
+    OnTie();
   }
+}
+
+void NewGameFrame::updateGame() {
+  tablero->limpiarTablero();
+  jugador1WinsLbl->SetLabel(wxString::Format("Victorias: %d", 1));
+  Refresh();
 }
 
 void NewGameFrame::OnExit(wxCommandEvent& event) { Close(true); }

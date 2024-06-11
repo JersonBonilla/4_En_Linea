@@ -19,7 +19,9 @@ class NewGameFrame : public wxFrame {
   void showConfigurationDialog();
   void buildGame(wxString player1Name, wxString player2Name, int width,
                  int length);
+  void updateGame();
   void OnWin();
+  void OnTie();
   wxStaticText* jugador1NameLbl;
   wxStaticText* jugador1WinsLbl;
   wxStaticText* jugador2NameLbl;

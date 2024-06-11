@@ -4,9 +4,8 @@
 // Dialog con pregunta de revancha
 class ReplayDialog : public wxDialog {
  public:
-  ReplayDialog(wxWindow* parent, wxWindowID id = wxID_ANY,
-               const wxString& title = "",
-               const wxPoint& pos = wxDefaultPosition,
+  ReplayDialog(wxWindow* parent, const wxString& title,
+               wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
                const wxSize& size = wxDefaultSize,
                long style = wxDEFAULT_DIALOG_STYLE)
       : wxDialog(parent, id, title, pos, size, style) {
