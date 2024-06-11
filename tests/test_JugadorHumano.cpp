@@ -33,3 +33,9 @@ TEST(JugadorHumanoTest, Ficha2) {
   JugadorHumano JPrueba("Nombre", false);
   ASSERT_EQ(JPrueba.fichaJugador, Color::ROJO);
 }
+
+TEST(JugadorHumanoTest, Movimiento) {
+  JugadorHumano JPrueba("Nombre", false);
+  Tablero tableroPrueba(6,6);
+  ASSERT_EQ(JPrueba.movimientoIA(tableroPrueba), -1);
+}
