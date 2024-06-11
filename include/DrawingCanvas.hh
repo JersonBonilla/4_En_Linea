@@ -7,7 +7,7 @@
 #include <vector>
 
 using namespace std;
-
+wxDECLARE_EVENT(EVT_PLAYED, wxCommandEvent);
 class DrawingCanvas : public wxWindow {
  public:
   DrawingCanvas(wxWindow *Parent, wxWindowID id, const wxPoint &pos,

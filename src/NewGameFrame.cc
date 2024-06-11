@@ -6,6 +6,7 @@
 #include <ReplayDialog.hh>
 #include <memory>
 
+wxDEFINE_EVENT(EVT_PLAYED, wxCommandEvent);
 using namespace std;
 // Constructor del frame principal del juego
 NewGameFrame::NewGameFrame()
@@ -22,11 +23,11 @@ NewGameFrame::NewGameFrame()
   menuBar->Append(menuHelp, "&Help");
 
   SetMenuBar(menuBar);
-
   CreateStatusBar();
   SetStatusText("Bienvenido a 4 en linea!");
   Bind(wxEVT_MENU, &NewGameFrame::OnAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &NewGameFrame::OnExit, this, wxID_EXIT);
+  Bind(EVT_PLAYED, &NewGameFrame::OnPlayed, this);
   showConfigurationDialog();
 }
 
@@ -77,14 +78,25 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
 }
 
 // Metodo encargado de manejar cuando un jugador gana
-void NewGameFrame::OnWin(wxCommandEvent& event) {
+void NewGameFrame::OnWin() {
   ReplayDialog dialog(this);
   if (dialog.ShowModal() == wxID_OK) {
+    tablero->limpiarTablero();
+    Refresh();
     // TODO: Agregar Clean al tablero para la revancha
     SetStatusText("Tablero limpiado");
   } else {
     // TODO: Agregar un metodo restartGame
     showConfigurationDialog();
+  }
+}
+
+void NewGameFrame::OnPlayed(wxCommandEvent& event) {
+  if (!tablero->ComprobarEmpate()) {
+    if (tablero->ComprobarGanador(
+            (tablero->getTurnos() % 2 == 0) ? Color::AMARILLO : Color::ROJO)) {
+      OnWin();
+    }
   }
 }
 
