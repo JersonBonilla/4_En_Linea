@@ -123,6 +123,7 @@ void DrawingCanvas::onMouseDown(wxMouseEvent &event) {
     wxLogStatus("Jugada incorrecta");
   }
   Refresh();
+  // Post del evento de jugada
   wxCommandEvent playEvent(EVT_PLAYED);
   playEvent.SetString(" ");
   wxPostEvent(this->GetParent(), playEvent);
