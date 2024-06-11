@@ -1,10 +1,9 @@
 #ifndef IJUGADOR_HH
 #define IJUGADOR_HH
 #include <string>
+#include <Tablero.hh>
 
 using namespace std;
-
-enum Color { VACIO = 0, AMARILLO = 1, ROJO = 2, PRUEBA = 3 };
 
 class IJugador {
  public:
@@ -14,6 +13,7 @@ class IJugador {
   string getNombre() { return nombre; }
   bool getPrimerJugador() { return primerJugador; }
   void incrementarPartidasGanadas() { partidasGanadas++; }
+  virtual int movimientoIA(Tablero &tablero) { return 0; }
 
  protected:
   int partidasGanadas = 0;

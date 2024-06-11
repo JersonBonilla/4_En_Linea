@@ -1,9 +1,10 @@
 #ifndef TABLERO_HH
 #define TABLERO_HH
-#include <IJugador.hh>
 #include <string>
 #include <vector>
 using namespace std;
+
+enum Color { VACIO = 0, AMARILLO = 1, ROJO = 2, PRUEBA = 3 };
 
 class Tablero {
  public:
