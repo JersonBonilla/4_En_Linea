@@ -7,9 +7,7 @@ using namespace std;
 
 class Tablero {
  public:
-  Tablero(){
-    
-  }
+  Tablero() {}
   Tablero(int filas, int columnas);
   vector<vector<Color>> getTableroPrivado();
   bool validarMovimiento(int columna);

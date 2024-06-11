@@ -1,8 +1,9 @@
 #ifndef DRAWINGCANVAS_HH
 #define DRAWINGCANVAS_HH
 #include <wx/wx.h>
-#include <Tablero.hh>
 
+#include <Tablero.hh>
+#include <memory>
 #include <vector>
 
 using namespace std;
@@ -10,20 +11,16 @@ using namespace std;
 class DrawingCanvas : public wxWindow {
  public:
   DrawingCanvas(wxWindow *Parent, wxWindowID id, const wxPoint &pos,
-                const wxSize &size, Tablero& tablero);
+                const wxSize &size, shared_ptr<Tablero> tablero);
   virtual ~DrawingCanvas() noexcept {}
 
  private:
   void onPaint(wxPaintEvent &);
   void onMouseDown(wxMouseEvent &);
-  void onMouseMove(wxMouseEvent &);
-  void onMouseUp(wxMouseEvent &);
-  void onMouseLeave(wxMouseEvent &);
   bool isDrawing{};
   int boardWidth = 0;
   int boardLength = 0;
-  Tablero playableTablero;
-  vector<vector<wxPoint2DDouble>> squiggles;
+  shared_ptr<Tablero> playableTablero;
 };
 
 #endif

@@ -4,6 +4,7 @@
 
 #include <DrawingCanvas.hh>
 #include <Tablero.hh>
+#include <memory>
 
 using namespace std;
 
@@ -24,6 +25,6 @@ class NewGameFrame : public wxFrame {
   wxStaticText* jugador2NameLbl;
   wxStaticText* jugador2WinsLbl;
   DrawingCanvas* canvas;
-  Tablero tablero;
+  shared_ptr<Tablero> tablero;
 };
 #endif

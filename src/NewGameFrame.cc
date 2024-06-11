@@ -4,6 +4,7 @@
 #include <MainMenuDialog.hh>
 #include <NewGameFrame.hh>
 #include <ReplayDialog.hh>
+#include <memory>
 
 using namespace std;
 // Constructor del frame principal del juego
@@ -67,10 +68,9 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
       new wxButton(this, wxID_ANY, "Ganar", wxDefaultPosition, wxDefaultSize);
   mainSizer->Add(winButton, wxSizerFlags().Expand().Proportion(3));
   winButton->Bind(wxEVT_BUTTON, &NewGameFrame::OnWin, this);*/
-  tablero = Tablero(width, length);
-  Tablero& tableroToSend = tablero;
+  tablero = make_shared<Tablero>(length, width);
   canvas = new DrawingCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-                             tableroToSend);
+                             tablero);
   mainSizer->Add(canvas, wxSizerFlags().Expand().Proportion(3));
 
   this->SetSizerAndFit(mainSizer);
