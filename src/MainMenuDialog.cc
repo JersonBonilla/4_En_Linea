@@ -33,12 +33,12 @@ void MainMenuDialog::BuildDialog() {
   // Texto Tamaño del tablero
   tableroConfigLbl = new wxStaticText(this, wxID_ANY, "Tamaño del tablero ");
   // Texto largo
-  largoLbl = new wxStaticText(this, wxID_ANY, "Largo: ");
+  largoLbl = new wxStaticText(this, wxID_ANY, "Filas: ");
   // Spin largo
   largoSc = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition,
                            wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
   // Texto ancho
-  anchoLbl = new wxStaticText(this, wxID_ANY, "Ancho: ");
+  anchoLbl = new wxStaticText(this, wxID_ANY, "Columnas: ");
   // Spin ancho
   anchoSc = new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition,
                            wxSize(125, -1), wxALIGN_LEFT, 4, 10, 4);
@@ -86,5 +86,5 @@ wxString MainMenuDialog::GetPlayer2Name() {
   return nombreJugador2Txt->GetLineText(0);
 }
 
-double MainMenuDialog::GetWidth() { return anchoSc->GetValue(); }
-double MainMenuDialog::GetLength() { return largoSc->GetValue(); }
+int MainMenuDialog::GetWidth() { return anchoSc->GetValue(); }
+int MainMenuDialog::GetLength() { return largoSc->GetValue(); }
