@@ -28,7 +28,6 @@ NewGameFrame::NewGameFrame()
   Bind(wxEVT_MENU, &NewGameFrame::OnExit, this, wxID_EXIT);
   Bind(EVT_PLAYED, &NewGameFrame::OnPlayed, this);
   showConfigurationDialog();
-  makePlay();
 }
 
 // Metodo que muestra el dialog de configuración del juego
@@ -101,6 +100,7 @@ void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
   mainSizer->Add(canvas, wxSizerFlags().Expand().Proportion(3));
 
   this->SetSizerAndFit(mainSizer);
+  makePlay();
 }
 
 // Metodo encargado de manejar cuando un jugador gana, si se accede a revancha
@@ -110,9 +110,9 @@ void NewGameFrame::OnWin() {
       this, wxString::Format("Ha ganado el jugador %d",
                              (tablero->getTurnos() % 2 == 0) ? 2 : 1));
   if (dialog.ShowModal() == wxID_OK) {
-    if (tablero->getTurnos() % 2 == 0){
+    if (tablero->getTurnos() % 2 == 0) {
       jugador2->incrementarPartidasGanadas();
-    }else{
+    } else {
       jugador1->incrementarPartidasGanadas();
     }
     updateGame();
@@ -156,24 +156,23 @@ void NewGameFrame::OnTie() {
 void NewGameFrame::OnPlayed(wxCommandEvent& event) {
   if (!tablero->ComprobarEmpate()) {
     if (tablero->ComprobarGanador(
-            (tablero->getTurnos() % 2 == 0) ? Color::AMARILLO : Color::ROJO)) {
+            (tablero->getTurnos() % 2 == 0) ? Color::ROJO : Color::AMARILLO)) {
       OnWin();
     }
   } else if (tablero->ComprobarEmpate()) {
     OnTie();
-  } else {
-    makePlay();
-
   }
+  makePlay();
 }
 
 // Limpia el tablero y actualiza las victorias del ultimo jugador que ganó.
 void NewGameFrame::updateGame() {
-  if(tablero->getTurnos() % 2 == 0 ){
-    jugador2WinsLbl->SetLabel(wxString::Format("Victorias: %d",
-  jugador2->getPartidasGanadas())); }else{
-    jugador1WinsLbl->SetLabel(wxString::Format("Victorias: %d",
-  jugador1->getPartidasGanadas()));
+  if (tablero->getTurnos() % 2 == 0) {
+    jugador2WinsLbl->SetLabel(
+        wxString::Format("Victorias: %d", jugador2->getPartidasGanadas()));
+  } else {
+    jugador1WinsLbl->SetLabel(
+        wxString::Format("Victorias: %d", jugador1->getPartidasGanadas()));
   }
   tablero->limpiarTablero();
   Refresh();
@@ -190,14 +189,15 @@ void NewGameFrame::makePlay() {
   } else {
     move = jugador2->movimientoIA(*tablero);
   }
-  if (move > -1 && tablero->getTurnos() == 0){
-    tablero->LlenarCasilla(move, Color::ROJO);
+  if (move > -1 && tablero->getTurnos() == 0) {
+    tablero->LlenarCasilla(move, Color::AMARILLO);
     Refresh();
     wxCommandEvent playEvent(EVT_PLAYED);
     playEvent.SetString("");
     wxPostEvent(this, playEvent);
-  } else if (move > -1){
-    tablero->LlenarCasilla(move, (tablero->getTurnos() % 2 == 0) ? Color::AMARILLO : Color::ROJO);
+  } else if (move > -1) {
+    tablero->LlenarCasilla(
+        move, (tablero->getTurnos() % 2 != 0) ? Color::ROJO : Color::AMARILLO);
     Refresh();
     wxCommandEvent playEvent(EVT_PLAYED);
     playEvent.SetString("");

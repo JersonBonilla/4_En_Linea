@@ -116,8 +116,8 @@ void DrawingCanvas::onMouseDown(wxMouseEvent &event) {
     // no del jugador 1
     playableTablero->LlenarCasilla(
         columnPosition,
-        ((playableTablero->getTurnos() % 2 != 0) ? Color::AMARILLO
-                                                 : Color::ROJO));
+        ((playableTablero->getTurnos() % 2 != 0) ? Color::ROJO
+                                                 : Color::AMARILLO));
     wxLogStatus(wxString::Format("Turno %d", playableTablero->getTurnos()));
   } else {
     wxLogStatus("Jugada incorrecta");
