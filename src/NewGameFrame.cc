@@ -208,6 +208,11 @@ void NewGameFrame::makePlay() {
 void NewGameFrame::OnExit(wxCommandEvent& event) { Close(true); }
 
 void NewGameFrame::OnAbout(wxCommandEvent& event) {
-  wxMessageBox("This is a wxWidgets Hello World example", "About Hello World",
-               wxOK | wxICON_INFORMATION);
+  wxMessageBox(
+      "Para seleccionar una casilla, pulsa con el raton en la columna que "
+      "desees. La ficha del primer jugador corresponde al color amarillo, y la "
+      "del segundo, al color rojo. Si se juega contra una inteligencia "
+      "artificial esta responde como sea oportuno, tanto si se trata del "
+      "primer jugador como del segundo. ",
+      "Bienvenido a 4 en linea!", wxOK | wxICON_INFORMATION);
 }

@@ -140,14 +140,34 @@ array<int, 2> IAAvanzada::miniMax(Tablero &tablero, int depth, int alpha,
 
   // si estamos en la ultima capa de profundidad permitida devolvemos
   if (depth == 0) {
+    // Por alguna razon esta dando fallos cuando se juegan tableros pequenos de
+    // 4x4, 5x5 y 4x5 (especificamente), la IA era incapaz de emitir un
+    // movimiento en jugadas finales de la partida en este tipo de tableros,
+    // razon por la que se implemento el siguiente ciclo: busca la primera
+    // columna libre como movimiento provisional, es decir, cuyo tope no este
+    // lleno.
+    int movimientoProvisional = 0;
+    for (int c = 0; c < tablero.getColumnas(); c++) {
+      if (board[0][c] == Color::VACIO) {
+        movimientoProvisional = c;
+      }
+      continue;
+    }
     return array<int, 2>{
         tabScore(board, computadora, jugadorHumano, computadora),
-        maximizeOrMinimize};
+        movimientoProvisional};
   }
   // si es una IA
   if (player == computadora) {
     // buscamos el menor valor posible
-    array<int, 2> movimientoTemporal = {INT_MIN, maximizeOrMinimize};
+    int movimientoProvisional = 0;
+    for (int c = 0; c < tablero.getColumnas(); c++) {
+      if (board[0][c] == Color::VACIO) {
+        movimientoProvisional = c;
+      }
+      continue;
+    }
+    array<int, 2> movimientoTemporal = {INT_MIN, movimientoProvisional};
     // si el jugador esta a punto de ganar.
     if (tablero.ComprobarGanador(jugadorHumano)) {
       // hacemos que sea como el peor score posible, para forzar que bloquee
@@ -180,7 +200,14 @@ array<int, 2> IAAvanzada::miniMax(Tablero &tablero, int depth, int alpha,
   } else {
     // Ahora buscamos movimientos que reduzcan el score, porque queremos hacer
     // minimize a jugador
-    array<int, 2> movimientoTemporal = {INT_MAX, maximizeOrMinimize};
+    int movimientoProvisional = 0;
+    for (int c = 0; c < tablero.getColumnas(); c++) {
+      if (board[0][c] == Color::VACIO) {
+        movimientoProvisional = c;
+      }
+      continue;
+    }
+    array<int, 2> movimientoTemporal = {INT_MAX, movimientoProvisional};
     if (tablero.ComprobarGanador(computadora)) {
       // Si esta a punto de ganar, devolvemos.
       return movimientoTemporal;
