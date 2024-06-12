@@ -28,6 +28,7 @@ NewGameFrame::NewGameFrame()
   Bind(wxEVT_MENU, &NewGameFrame::OnExit, this, wxID_EXIT);
   Bind(EVT_PLAYED, &NewGameFrame::OnPlayed, this);
   showConfigurationDialog();
+  makePlay();
 }
 
 // Metodo que muestra el dialog de configuración del juego
@@ -35,7 +36,8 @@ void NewGameFrame::showConfigurationDialog() {
   MainMenuDialog dialog(this);
   if (dialog.ShowModal() == wxID_OK) {
     buildGame(dialog.GetPlayer1Name(), dialog.GetPlayer2Name(),
-              dialog.GetWidth(), dialog.GetLength());
+              dialog.GetWidth(), dialog.GetLength(), dialog.GetPlayer1Type(),
+              dialog.GetPlayer2Type());
   } else {
     Close(true);
   }
@@ -43,7 +45,32 @@ void NewGameFrame::showConfigurationDialog() {
 
 // Metodo que construye la ventana del juego
 void NewGameFrame::buildGame(wxString player1Name, wxString player2Name,
-                             int width, int length) {
+                             int width, int length, int player1Type,
+                             int player2Type) {
+  switch (player1Type) {
+    case 0:
+      // Añadir cast de Persona
+      break;
+    case 1:
+      // Añadir cast de IAFacil
+      break;
+    case 2:
+      // Añadir cast de IADificil
+      break;
+  }
+
+  switch (player2Type) {
+    case 0:
+      // Añadir cast de Persona
+      break;
+    case 1:
+      // Añadir cast de IAFacil
+      break;
+    case 2:
+      // Añadir cast de IADificil
+      break;
+  }
+
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
   wxBoxSizer* jugador1Sizer = new wxBoxSizer(wxVERTICAL);
   jugador1NameLbl = new wxStaticText(this, wxID_ANY, player1Name);
@@ -77,7 +104,12 @@ void NewGameFrame::OnWin() {
       this, wxString::Format("Ha ganado el jugador %d",
                              (tablero->getTurnos() % 2 == 0) ? 2 : 1));
   if (dialog.ShowModal() == wxID_OK) {
-    updateGame();
+    /*if (tablero->getTurnos() % 2 == 0){
+      jugador2->incrementarPartidasGanadas();
+    }else{
+      jugador1->incrementarPartidasGanadas();
+    }
+    updateGame();*/
     SetStatusText("Tablero limpiado");
   } else {
     delete (jugador1NameLbl);
@@ -117,15 +149,40 @@ void NewGameFrame::OnPlayed(wxCommandEvent& event) {
             (tablero->getTurnos() % 2 == 0) ? Color::AMARILLO : Color::ROJO)) {
       OnWin();
     }
-  } else {
+  } else if (tablero->ComprobarEmpate()) {
     OnTie();
+  } else {
+    makePlay();
   }
 }
 
 // Limpia el tablero y actualiza las victorias del ultimo jugador que ganó.
 void NewGameFrame::updateGame() {
+  /*if(tablero->getTurnos%2==0){
+    jugador2WinsLbl->SetLabel(wxString::Format("Victorias: %d",
+  jugador2->getPartidasGanadas())); }else{
+    jugador1WinsLbl->SetLabel(wxString::Format("Victorias: %d",
+  jugador1->getPartidasGanadas()));
+  }*/
   tablero->limpiarTablero();
-  jugador1WinsLbl->SetLabel(wxString::Format("Victorias: %d", 1));
+  Refresh();
+}
+
+// Envia una jugada de la ia al tablero, si el jugador no fuera IA su movimiento
+// retorna -1, no hace nada.
+void NewGameFrame::makePlay() {
+  int move = 0;
+  if (tablero->getTurnos() == 0) {
+    // move = jugador1->movimientoIA(*tablero);
+  } else if (tablero->getTurnos() % 2 == 0) {
+    // move = jugador2->movimientoIA(*tablero);
+  } else {
+    // move = jugador1->movimientoIA(*tablero);
+  }
+  /*if (move > -1){
+    tablero->LlenarCasilla(move, ((tablero->getTurnos() % 2 != 0) ?
+  Color::AMARILLO : Color::ROJO));
+  }*/
   Refresh();
 }
 

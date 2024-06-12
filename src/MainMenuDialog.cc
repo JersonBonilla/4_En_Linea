@@ -88,3 +88,7 @@ wxString MainMenuDialog::GetPlayer2Name() {
 
 int MainMenuDialog::GetWidth() { return anchoSc->GetValue(); }
 int MainMenuDialog::GetLength() { return largoSc->GetValue(); }
+
+int MainMenuDialog::GetPlayer1Type() { return tipoJugador1Rb->GetSelection(); }
+
+int MainMenuDialog::GetPlayer2Type() { return tipoJugador2Rb->GetSelection(); }
