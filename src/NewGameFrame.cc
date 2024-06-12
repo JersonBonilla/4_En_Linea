@@ -198,6 +198,10 @@ void NewGameFrame::makePlay() {
     wxPostEvent(this, playEvent);
   } else if (move > -1){
     tablero->LlenarCasilla(move, (tablero->getTurnos() % 2 == 0) ? Color::AMARILLO : Color::ROJO);
+    Refresh();
+    wxCommandEvent playEvent(EVT_PLAYED);
+    playEvent.SetString("");
+    wxPostEvent(this, playEvent);
   }
 }
 
