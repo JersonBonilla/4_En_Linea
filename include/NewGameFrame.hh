@@ -2,6 +2,10 @@
 #define NEWGAMEFRAME_HH
 #include <wx/wx.h>
 
+#include <IJugador.hh>
+#include <JugadorHumano.hh>
+#include <IAFacil.hh>
+#include <IAAvanzada.hh>
 #include <DrawingCanvas.hh>
 #include <Tablero.hh>
 #include <memory>
@@ -29,7 +33,7 @@ class NewGameFrame : public wxFrame {
   wxStaticText* jugador2WinsLbl;
   DrawingCanvas* canvas;
   shared_ptr<Tablero> tablero;
-  unique_ptr<IJugador> jugador1;
-  unique_ptr<IJugador> jugador2;
+  IJugador* jugador1;
+  IJugador* jugador2;
 };
 #endif
